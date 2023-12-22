@@ -1,0 +1,25 @@
+<form [formGroup]="groupForm">
+    <p class="text-danger">{{groupError}}</p>
+    <div class="mb-3">
+      <label for="exampleInputNombre1" class="form-label">Nombre</label>
+      <input formControlName="nombre" type="text" class="form-control" id="exampleInputNombre1">
+        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+            class="text-danger">
+            <div *ngIf="nombre.errors?.['required']">
+                El nombre es requerido.
+            </div>
+        </div> 
+    </div>
+
+     <!-- Categoría -->
+     <div class="mb-3">
+        <label for="exampleSelectCategoria" class="form-label">Categoría</label>
+        <select formControlName="categoria" class="form-select" id="exampleSelectCategoria">
+          <option *ngFor="let categoria of categorias" [value]="categoria.id">
+            {{ categoria.nombre }}
+          </option>
+        </select>
+      </div>
+
+    <button type="submit" (click)="createGroup()" class="btn btn-primary">Crear</button>
+</form>

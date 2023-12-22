@@ -1,0 +1,40 @@
+<div class="card mx-auto mt-3" style="max-width: 800px;" *ngIf="gastos && gastos.length > 0" >
+    <div class="card-header">
+        Gastos
+    </div>
+    <div class="card-body">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let gasto of gastos">
+            <td>{{ gasto.nombre }}</td>
+            <td>
+               {{ 100 }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+</div>
+
+
+<div class="card mx-auto mt-3" style="max-width: 800px;" *ngIf="gastos && gastos.length === 0">
+  <div class="card-header">
+      Gastos
+  </div>
+  <p>No hay gastos.</p>
+</div>
+
+
+<div class="input-group mx-auto mb-3" style="max-width: 800px;">
+  <div class="input-group-append">
+    <button class="btn btn-success me-1" type="button" (click)="agregarGasto()">Agregar gasto</button>
+    <button class="btn btn-secondary me-1" type="button" routerLink="/inicio">Volver</button>
+  </div>
+</div>
