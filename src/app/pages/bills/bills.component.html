@@ -34,7 +34,7 @@
 
 <div class="input-group mx-auto mb-3" style="max-width: 800px;">
   <div class="input-group-append">
-    <button class="btn btn-success me-1" type="button" (click)="agregarGasto()">Agregar gasto</button>
+    <button class="btn btn-success me-1" type="button" [routerLink]="['/formulario-gasto', idGrupo]">Agregar gasto</button>
     <button class="btn btn-secondary me-1" type="button" routerLink="/inicio">Volver</button>
   </div>
 </div>

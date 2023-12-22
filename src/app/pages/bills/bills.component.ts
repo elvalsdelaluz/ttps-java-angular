@@ -1,25 +1,32 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Gasto } from './bill';
 
 @Component({
   selector: 'app-bills',
   templateUrl: './bills.component.html',
-  styleUrl: './bills.component.css'
+  styleUrls: ['./bills.component.css'] // Corrección en el nombre de la propiedad
 })
 export class BillsComponent {
 
   g: Gasto = {
-    id:'1',
+    id: '1',
     nombre: 'Comida'
   };
-  gastos: Gasto[]=[this.g];
+  gastos: Gasto[] = [this.g];
+  idGrupo?: string; // Declaración de idGrupo
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 
-  agregarGasto(){
-    console.log("Mostrar formulario de gasto")
-  }
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.idGrupo = params['idGrupo']; // Asignación de idGrupo
+    });
+  } // Corrección: Agregar corchete de cierre para el método ngOnInit
 
+  agregarGasto() {
+    console.log("Mostrar formulario de gasto");
+    console.log(this.idGrupo)
+    this.router.navigate(['formulario-gasto', this.idGrupo], { relativeTo: this.route });
+  }
 }

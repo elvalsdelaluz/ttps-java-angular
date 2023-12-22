@@ -11,7 +11,7 @@ import { Gasto } from './bill';
   styleUrl: './form-bill.component.css'
 })
 export class FormBillComponent {
-  formas_pago = [
+  formaspago = [
     { id: '1', nombre: 'Partes iguales' }
   ];
 
@@ -19,6 +19,10 @@ export class FormBillComponent {
     { id: '1', nombre: 'Comida' },
     { id: '2', nombre: 'Hospedaje' }
   ];
+
+  miembros=[
+    { id: '1', nombre: 'Maria' },
+  ]
   
   billError: string="";
   
@@ -38,6 +42,22 @@ export class FormBillComponent {
     } else {
       return { 'noString': true }; // Es un string, la validación falla
     }
+  }
+
+  get monto(){
+    return this.billForm.controls.monto;
+  }
+
+  get formapago(){
+    return this.billForm.controls.formapago;
+  }
+
+  get categoria(){
+    return this.billForm.controls.categoria;
+  }
+
+  get miembro(){
+    return this.billForm.controls.miembro;
   }
 
   createBill() {
