@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
-import { GroupService } from '../services/group/group.service';
-import { GroupRequest } from '../services/group/groupRequest';
+import { GroupService } from '../../services/group/group.service';
+import { GroupRequest } from '../../services/group/groupRequest';
 
 @Component({
   selector: 'app-form-group',
   templateUrl: './form-group.component.html',
   styleUrl: './form-group.component.css'
 })
-export class FormGroupComponent {
+export class FormGroupComponent{
   categorias = [
     { id: '1', nombre: 'Viaje' },
     { id: '2', nombre: 'Fiesta' }
@@ -19,10 +19,12 @@ export class FormGroupComponent {
 
   groupForm=this.formBuilder.group({
     nombre: ['',Validators.required],
-    categoria:  ['',Validators.required]
+    categoria:  ['',Validators.required],
+    idUser: ['', []],
   })
 
-  constructor(private formBuilder:FormBuilder, private router:Router, private groupService: GroupService) { }
+  constructor(private formBuilder:FormBuilder, private router:Router, private groupService: GroupService) { 
+  }
 
   get nombre(){
     return this.groupForm.controls.nombre;
@@ -41,7 +43,7 @@ export class FormGroupComponent {
         },
         complete: () => {
           console.info("Se creo el grupo");
-          this.router.navigateByUrl('/inicio');
+          this.router.navigateByUrl('/inicio/grupos');
           this.groupForm.reset();
         }
       })

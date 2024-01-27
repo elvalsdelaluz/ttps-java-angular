@@ -7,6 +7,7 @@
         <thead>
           <tr>
             <th scope="col">Nombre</th>
+            <th scope="col">Participantes</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
@@ -14,7 +15,13 @@
           <tr *ngFor="let grupo of grupos">
             <td>{{ grupo.nombre }}</td>
             <td>
-              <a class="btn btn-warning btn-sm mr-2" (click)="VerGastos()">Ver gastos</a>
+              <div *ngFor="let miembro of grupo.miembros">
+                {{ miembro.email }}
+              </div>
+            </td>
+            <td>
+              <a class="btn btn-warning btn-sm mr-2" (click)="VerGastos(grupo.id, grupo.miembros)">Ver gastos</a>
+              <a class="btn btn-warning btn-sm mr-2" (click)="agregarParticipante(grupo.id)">Añadir participante</a>
             </td>
           </tr>
         </tbody>

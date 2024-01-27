@@ -6,16 +6,18 @@
       <table class="table table-hover">
         <thead>
           <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Monto</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Categoria</th>
+            <th scope="col">Monto pagado</th>
+            <th scope="col">Monto prestado</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let gasto of gastos">
-            <td>{{ gasto.nombre }}</td>
-            <td>
-               {{ 100 }}
-            </td>
+            <td>{{ gasto.fechaCreacion }}</td>
+            <td>{{ gasto.categoria}}</td>
+            <td>{{ gasto.monto }}</td>
+            <td>{{ gasto.montoPrestado }}</td>
           </tr>
         </tbody>
       </table>
@@ -34,7 +36,7 @@
 
 <div class="input-group mx-auto mb-3" style="max-width: 800px;">
   <div class="input-group-append">
-    <button class="btn btn-success me-1" type="button" [routerLink]="['/formulario-gasto', idGrupo]">Agregar gasto</button>
-    <button class="btn btn-secondary me-1" type="button" routerLink="/inicio">Volver</button>
+    <button class="btn btn-success me-1" type="button" (click)="agregarGasto()">Agregar gasto</button>
+    <button class="btn btn-secondary me-1" type="button" routerLink="/inicio/grupos">Volver</button>
   </div>
 </div>

@@ -50,7 +50,7 @@ export class RegisterComponent {
         },
         complete: () => {
           console.info("Registro completado");
-          this.router.navigateByUrl('/inicio-sesion');
+          this.router.navigateByUrl('/iniciar-sesion');
           this.registerForm.reset();
         }
       })

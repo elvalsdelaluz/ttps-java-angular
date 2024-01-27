@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
     email:['',[Validators.required,Validators.email]],
     password: ['',Validators.required],
   })
+  
   constructor(private formBuilder:FormBuilder, private router:Router, private loginService: LoginService) { }
 
   ngOnInit(): void {
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
           console.log(userData);
         },
         error: (errorData) => {
+          console.log("Error observable (creo): ")
           console.error(errorData);
           this.loginError=errorData;
         },

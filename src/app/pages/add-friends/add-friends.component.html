@@ -1,0 +1,18 @@
+<p>Agregar nuevo participante al grupo</p>
+
+<div *ngIf="usuarios && usuarios.length > 0">
+    <table class="table table-hover">
+        <tbody>
+        <tr *ngFor="let usuario of usuarios">
+            <th>{{usuario.email}}</th>
+            <td><a class="btn btn-warning btn-sm mr-2" (click)="agregarParticipante(usuario)">Agregar</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="usuarios && usuarios.length === 0">
+    <p>No hay participantes para agregar.</p>
+</div>
+
+<button class="btn btn-secondary me-1" type="button" routerLink="/inicio/grupos">Volver</button>

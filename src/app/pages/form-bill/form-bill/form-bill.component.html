@@ -28,10 +28,10 @@
 
     <!-- Miembros -->
    <div class="mb-3">
-      <label for="exampleSelectMiembro" class="form-label">Miembros</label>
-      <select formControlName="miembros" class="form-select" id="exampleSelectMiembros">
+      <label for="exampleSelectMiembro" class="form-label">Pagado por</label>
+      <select formControlName="miembro" class="form-select" id="exampleSelectMiembros">
         <option *ngFor="let miembro of miembros" [value]="miembro.id">
-          {{ miembro.nombre }}
+          {{ miembro.email }}
         </option>
       </select>
     </div>
@@ -46,8 +46,10 @@
       </select>
     </div>
 
-  <button type="submit" (click)="createBill()" class="btn btn-primary">Crear</button>
-  <button class="btn btn-secondary me-1" type="button" routerLink="/inicio">Volver</button>
+    <button *ngIf="billForm.get('formapago')?.value === '1'" type="submit" (click)="createBill()" class="btn btn-primary">Crear</button>
+    <button *ngIf="billForm.get('formapago')?.value !== '1'" type="submit" (click)="createBillSumarry()" class="btn btn-primary">Siguiente</button>
+    <button class="btn btn-secondary me-1" type="button" routerLink="/inicio/grupos">Volver</button>
+    
 </form>
 
   </div>

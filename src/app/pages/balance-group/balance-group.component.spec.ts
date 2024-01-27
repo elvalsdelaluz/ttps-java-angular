@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegisterComponent } from './register.component';
+import { BalanceGroupComponent } from './balance-group.component';
 
-describe('RegisterComponent', () => {
-  let component: RegisterComponent;
-  let fixture: ComponentFixture<RegisterComponent>;
+describe('BalanceGroupComponent', () => {
+  let component: BalanceGroupComponent;
+  let fixture: ComponentFixture<BalanceGroupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegisterComponent]
+      declarations: [BalanceGroupComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(RegisterComponent);
+    fixture = TestBed.createComponent(BalanceGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

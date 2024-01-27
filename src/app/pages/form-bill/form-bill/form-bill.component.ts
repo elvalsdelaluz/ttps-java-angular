@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, AbstractControl} from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BillService } from '../../../services/bill/bill.service';
 import { BillRequest } from '../../../services/bill/billRequest';
-import { Gasto } from './bill';
+import { User } from '../../group/group';
 
 @Component({
   selector: 'app-form-bill',
@@ -20,9 +20,7 @@ export class FormBillComponent {
     { id: '2', nombre: 'Hospedaje' }
   ];
 
-  miembros=[
-    { id: '1', nombre: 'Maria' },
-  ]
+  miembros: User[]=[]
   
   billError: string="";
   
@@ -32,8 +30,10 @@ export class FormBillComponent {
     formapago: ['',Validators.required],
     miembro:['',Validators.required]
   })
+  
+  idGrupo?: string; // Declaración de idGrupo
 
-  constructor(private formBuilder:FormBuilder, private router:Router, private billService: BillService) { }
+  constructor(private formBuilder:FormBuilder, private router:Router, private route: ActivatedRoute, private billService: BillService) { }
 
   noStringValidator(control: AbstractControl): { [key: string]: any } | null {
     const value = control.value;
@@ -60,6 +60,18 @@ export class FormBillComponent {
     return this.billForm.controls.miembro;
   }
 
+  ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.idGrupo = params['idGrupo']; // Asignación de idGrupo
+    });
+    console.log("--------------Mostrando miembros-----------")
+    console.log(this.miembros)
+    this.billService.miembros$.subscribe((users) => {
+      this.miembros = users;
+    });
+    console.log(this.miembros)
+  } 
+
   createBill() {
     if (this.billForm.valid) {
       this.billError = "";
@@ -75,11 +87,11 @@ export class FormBillComponent {
           const billRequest: BillRequest = {
             monto: montoNumerico,
             categoria: this.billForm.get('categoria')?.value ?? '',
-            formapago: this.billForm.get('formapago')?.value ?? '',
-            miembro: this.billForm.get('miembro')?.value ?? ''
+            formaPago: this.billForm.get('formapago')?.value ?? '',
+            idUsuario: this.billForm.get('miembro')?.value ?? ''
           };
   
-          this.billService.addGasto(billRequest).subscribe({
+          this.billService.addGasto(billRequest, this.idGrupo).subscribe({
             next: (userData) => {
               console.log(userData);
             },
@@ -89,7 +101,8 @@ export class FormBillComponent {
             },
             complete: () => {
               console.info("Se creo el gasto");
-              this.router.navigateByUrl('/inicio');
+              const url = ['inicio/gastos/', this.idGrupo];
+              this.router.navigate(url); //Deberia volver a gastos
               this.billForm.reset();
             }
           });
@@ -103,6 +116,11 @@ export class FormBillComponent {
       this.billForm.markAllAsTouched();
       alert("Error al ingresar los datos.");
     }
+  }
+
+  createBillSumarry() {
+    console.log("Estoy en createBillSummary")
+    console.log(this.billForm.valid)
   }
   
 }

@@ -1,4 +1,5 @@
 export interface GroupRequest {
     nombre:string,
-    categoria:string
+    categoria:string,
+    idUser:string
 }

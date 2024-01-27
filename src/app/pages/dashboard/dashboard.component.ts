@@ -9,16 +9,11 @@ import { Grupo } from '../group/group';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit , OnDestroy {
+export class DashboardComponent implements OnInit {
   userLoginOn:boolean=false;
-  userData?:User;
+  //userData?:User;
 
   constructor(private loginService:LoginService, private groupService:GroupService) { }
-
-  ngOnDestroy(): void {
-    this.loginService.currentUserData.unsubscribe();
-    this.loginService.currentUserLoginOn.unsubscribe();
-  }
 
   ngOnInit(): void {
     this.loginService.currentUserLoginOn.subscribe({
@@ -27,11 +22,26 @@ export class DashboardComponent implements OnInit , OnDestroy {
       }
     });
  
-    this.loginService.currentUserData.subscribe({
-      next:(userData)=>{
-        this.userData=userData;
-      }
-    })
+   // this.loginService.currentUserData.subscribe({
+    //  next:(userData)=>{
+   //     this.userData=userData;
+    //  }
+ //   })
+  }
+
+  viewHome(){
+
+  }
+
+  viewGroups(){
+
+  }
+
+  viewFriends(){
+
+  }
+
+  viewActivities(){
 
   }
 

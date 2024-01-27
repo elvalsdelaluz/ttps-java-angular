@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { GroupService } from '../../services/group/group.service';
-import { Grupo } from './group';
+import { Grupo, User } from './group';
+import { BillService } from '../../services/bill/bill.service';
 
 @Component({
   selector: 'app-group',
@@ -12,27 +13,33 @@ import { Grupo } from './group';
 })
 export class GroupComponent implements OnInit {
 
-constructor(private grupoService: GroupService, private router: Router, private route: ActivatedRoute) { }
+grupos: Grupo[]=[];
 
-g: Grupo = {
-  id:'1',
-  nombre: 'Cordoba'
-};
-grupos: Grupo[]=[this.g];
+constructor(private grupoService: GroupService, private billService: BillService, private router: Router, private route: ActivatedRoute) { }
 
 EditarGrupo(): void{
   //este mepa q no va aca
   console.log("Mostrar formulario de edicion grupo")
 }
 
-agregarGrupo() {
-  console.log("Hay que mostrar el formulario de grupo")
-  this.router.navigate(['formulario-grupo'], { relativeTo: this.route });
+agregarParticipante(idGrupo:string):void{
+  console.log("Muestro model para agregar un participante: ")
+  const url = ['inicio/agregar-participante', idGrupo];
+  this.router.navigate(url);
 }
 
-VerGastos() {
+
+agregarGrupo() {
+  console.log("Hay que mostrar el formulario de grupo")
+  this.router.navigate(['inicio/formulario-grupo']);
+}
+
+VerGastos(id_grupo: string, miembros: User[]) {
+  //Antes de mostrar la lista de gastos actualizo la lista de miembros
+  this.billService.updateUserList(miembros);
+  //Cargando gastos
   console.log("Mostrar gastos")
-  this.router.navigate(['gastos', this.g.id], { relativeTo: this.route });
+  this.router.navigate(['inicio/gastos', id_grupo]);
 }
 
 ngOnInit(): void {
@@ -40,6 +47,7 @@ ngOnInit(): void {
    this.grupoService.getGrupos().subscribe(
     grupos => {
       this.grupos = grupos;
+      console.log(grupos); 
     },
     error => {
       console.error('Error al obtener grupos', error);

@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class RegisterService {
 
-  private readonly API = 'http://localhost:8080/cuentasclaras/usuario/login';
+  private readonly API = 'http://localhost:8080/cuentasclaras/usuario';
 
   constructor(private http: HttpClient, private router: Router) { }
   
@@ -26,12 +26,12 @@ export class RegisterService {
         catchError(this.handleError)
         ,
         // Redirigir al usuario al inicio-sesion después de haber sido registrado
-        tap(() => this.router.navigate(['/inicio-sesion']))
+        tap(() => this.router.navigate(['iniciar-sesion']))
       );
   }
    
   private handleError(error:HttpErrorResponse){
-    if(error.status===404){
+    if(error.status===409){
       console.error('Se ha producio un error ', error.error);
       return throwError(()=> new Error('El email pertenece a un usuario que ya ha sido registrado!'));
     }

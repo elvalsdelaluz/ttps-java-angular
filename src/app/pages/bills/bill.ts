@@ -1,4 +1,10 @@
 export interface Gasto{
     id: string;
-    nombre: string
+    monto: number,
+    montoPrestado: number,
+    usuario: any,
+    formaDivision: any,
+    categoria: any,
+    fechaCreacion: any,
+    
 }

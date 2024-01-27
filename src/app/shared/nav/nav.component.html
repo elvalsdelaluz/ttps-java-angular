@@ -5,13 +5,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li *ngIf="!userLoginOn" class="nav-item">
-            <a class="nav-link" routerLink="/iniciar-sesion">Iniciar Sesión</a>
-          </li>
-          <li *ngIf="userLoginOn" class="nav-item">
-            <a class="nav-link" routerLink="/iniciar-sesion">Cerrar Sesión</a>
+          <li class="nav-item">
+            <a class="nav-link" (click)="logout()">Cerrar Sesión</a>
           </li>
         </ul>
       </div>
     </div>
-  </nav>
+</nav>
