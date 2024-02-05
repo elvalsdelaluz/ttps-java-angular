@@ -46,7 +46,7 @@ export class FormBillSummaryComponent {
   }
 
   customArrayValidator(array: AbstractControl): { [key: string]: any } | null {
-    if ((array instanceof FormArray) && this.controlarValoresInputArray()) {
+    if ((array instanceof FormArray) && this.controlarValoresInputArray(array)) {
       return null;
     }
   
@@ -54,25 +54,41 @@ export class FormBillSummaryComponent {
   
     return { superaElMaximo: true };
   }
-  
-  customArrayValidator3(array: AbstractControl): { [key: string]: any } | null {
-    // Realiza tu lógica de validación personalizada aquí
-    // Retorna un objeto con el error si la validación falla
-    // o null si la validación es exitosa
-  
-    // Ejemplo: validación de longitud mínima del array
-    if (array instanceof FormArray && this.controlarValoresInputArray()) {
-      console.log ("validandoooooooooooooo");
-      return { superaElMaximo: true };
-    }
-    console.log ("validandoooooooooooooo mal....");
-    // Si no hay errores, retorna null
-    return null;
-  }
 
-  controlarValoresInputArray(): boolean{
+  controlarValoresInputArray2(): boolean{
     return false;
   }
+
+  controlarValoresInputArray(array:FormArray): boolean {
+    const formapagoControl = this.billForm?.get('formapago');
+    
+    if (formapagoControl instanceof FormControl && formapagoControl.value !== '1') {
+      const montoControl = this.billForm?.get('monto');
+      
+      if (montoControl instanceof FormControl && typeof montoControl.value === 'number') {
+        const montoIngresado = montoControl.value;
+        console.log("Tengo que sumar los valores ingresados en los input");
+        // Resto del código
+
+        let sumaControles = 0;
+  
+        for (let i = 0; i < array.length; i++) {
+          const control = array.at(i) as FormGroup;
+          const controlValue = control.get('algo')?.value;
+      
+          if (typeof controlValue === 'number' || typeof controlValue === 'undefined') {
+            sumaControles += controlValue || 0;
+          }
+        }
+      
+        if ((formapagoControl.value === '3' && sumaControles !== montoIngresado) || (formapagoControl.value === '2' && sumaControles !== 100)) {
+          return  false ;
+        }
+      }
+    }
+    return true;
+  }
+  
 
   customArrayValidator2(array: AbstractControl): { [key: string]: any } | null {
     if (!array || !(array instanceof FormArray)) {
