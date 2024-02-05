@@ -4,3 +4,9 @@ export interface BillRequest {
     idUsuario: string,
     formaPago:string
 }
+
+
+export interface BillSummary {
+    idUser: string,
+    monto: number
+}

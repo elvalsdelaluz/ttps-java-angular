@@ -74,7 +74,7 @@ export class FormBillSummaryComponent {
         let sumaControles = 0;
         for (let i = 0; i < array.length; i++) {
           const control = array.at(i) as FormGroup;
-          const controlValue = control.get('algo')?.value;
+          const controlValue = control.get('deuda')?.value;
           //En caso de que no se haya ingresado un valor se suma 0
           if (typeof controlValue === 'number' || typeof controlValue === 'undefined') {
             sumaControles += controlValue || 0;
@@ -115,15 +115,16 @@ export class FormBillSummaryComponent {
     const cantidadFormControl = this.miembros2.length;
     // Iterar para agregar FormControl al FormArray
     for (let i = 0; i < cantidadFormControl; i++) {
-      this.addInterest(); // es solo esta linea no?
+      this.addInterest(this.miembros2[i].id); // es solo esta linea no?
     }
   }
 
-  addInterest(){
+  addInterest(id_user: string){
     //this.interests.push(this.fb.control('', [Validators.required, Validators.minLength(10)])) 
     //Esto tira un error de que no encuentra el nombre del controlador o algo asi
     const interestFormGroup = this.fb.group({
-      algo:['', Validators.required]
+      user_id:[id_user , Validators.required],
+      deuda:['', Validators.required]
     })
     this.interests.push(interestFormGroup)
   }
@@ -150,7 +151,7 @@ export class FormBillSummaryComponent {
         const interestsArray = this.billForm.get('interests') as FormArray;
         for (let i = 0; i < interestsArray.length; i++) {
           const control = interestsArray.at(i) as FormGroup;
-          control.patchValue({ algo: result});
+          control.patchValue({ deuda: result});
         }
     }
     else if (this.formapago.value === '2' || this.formapago.value === '3') {
@@ -160,9 +161,12 @@ export class FormBillSummaryComponent {
         // Iterar sobre los controles y resetear cada uno
         interestsArray.controls.forEach((control) => {
           // Resetear el control
-          control.reset();
+          //control.reset(); este me limpia todo
+          const deudaControl = control.get('deuda');
+          if (deudaControl) {
+            deudaControl.reset();
+          }
         });
-
     }
   }
 

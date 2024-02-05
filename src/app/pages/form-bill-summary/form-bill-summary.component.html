@@ -39,11 +39,11 @@
   <div formArrayName="interests">
     <!-- Iterar sobre los controles en el FormArray -->
     <div *ngFor="let interest of interests.controls; let i=index" [formGroupName]="i">
-      <label for="algo{{i}}">{{miembros2[i].email}}:</label>
-      <input id="algo{{i}}" type="number" formControlName="algo" [readonly]="formapago.value === '1'">
+      <label for="deuda{{i}}">{{miembros2[i].email}}:</label>
+      <input id="deuda{{i}}" type="number" formControlName="deuda" [readonly]="formapago.value === '1'">
       
       <!-- Mostrar mensajes de error si el control es inválido -->
-      <div *ngIf="interest.get('algo')?.hasError('required') && interest.get('algo')?.touched">
+      <div *ngIf="interest.get('deuda')?.hasError('required') && interest.get('deuda')?.touched">
         El campo es obligatorio.
       </div>
     </div>
