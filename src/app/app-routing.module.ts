@@ -11,6 +11,7 @@ import { checkLoginGuard } from './shared/guards/check-login.guard';
 import { ListFriendsComponent } from './pages/list-friends/list-friends.component';
 import { AddFriendsComponent } from './pages/add-friends/add-friends.component';
 import { Formulario2Component } from './formulario2/formulario2.component';
+import { FormBillSummaryComponent } from './pages/form-bill-summary/form-bill-summary.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'/iniciar-sesion', pathMatch:'full'},
@@ -21,6 +22,7 @@ const routes: Routes = [
     {path: 'formulario-grupo', component:FormGroupComponent},
     {path:'grupos', component: GroupComponent},  
     {path: 'formulario-gasto/:idGrupo', component: FormBillComponent},
+    {path:'resumen-gasto', component: FormBillSummaryComponent},
     {path: 'gastos/:idGrupo', component:BillsComponent},
     {path:'amigos', component:ListFriendsComponent},
     {path:'agregar-participante/:idGrupo', component:AddFriendsComponent}

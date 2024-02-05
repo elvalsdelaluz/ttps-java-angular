@@ -14,7 +14,6 @@ import { FormGroupComponent } from './pages/form-group/form-group.component';
 import { BillsComponent } from './pages/bills/bills.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { FormBillComponent } from './pages/form-bill/form-bill/form-bill.component';
-import { BalanceGroupComponent } from './pages/balance-group/balance-group.component';
 import { ListFriendsComponent } from './pages/list-friends/list-friends.component';
 import { AddFriendsComponent } from './pages/add-friends/add-friends.component';
 import { Formulario2Component } from './formulario2/formulario2.component';
@@ -32,7 +31,6 @@ import { FormBillSummaryComponent } from './pages/form-bill-summary/form-bill-su
     BillsComponent,
     RegisterComponent,
     FormBillComponent,
-    BalanceGroupComponent,
     ListFriendsComponent,
     AddFriendsComponent,
     Formulario2Component,

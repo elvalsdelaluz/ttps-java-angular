@@ -13,27 +13,26 @@ export class GroupService {
 
   private readonly APIGrupos = 'http://localhost:8080/cuentasclaras/grupo/obtenerGrupos';
   private readonly API = 'http://localhost:8080/cuentasclaras/grupo';
-  //Aca voy a cargar los grupos del
+  //Aca voy a cargar los grupos del usuario
   grupos: Grupo[] = []
 
   constructor(private http: HttpClient, private loginService: LoginService) {  }
 
   addGrupo(group:GroupRequest):Observable<Grupo>{
-    console.log("Formulario de grupo: ", group)
-    console.log("Usuario info del servicio login: ", this.loginService.userValue)
-    const userData = this.loginService.userValue
+    const userData = this.loginService.userValue;
     group.idUser = userData.id_usuario.toString();
-    return this.http.post<Grupo>(this.API, group)
+    return this.http.post<Grupo>(this.API, group);
   }
 
   getGrupos():Observable<Grupo[]>{
-    console.log("Recuperando grupos del usuario")
+    console.log("Recuperando grupos del usuario");
     //tengo que sacar el id del usuario del localstorage
     //const userData = localStorage.getItem('userData'); //Esto me dejo de funcionar de la nda
     //console.log("LocalStorage: ", userData)
-    const userDataAuth = this.loginService.userValue
+    const userDataAuth = this.loginService.userValue;
+    console.log("Recuperando grupos del usuario ", userDataAuth);
     if (userDataAuth != null){
-        return this.http.post<Grupo[]>(this.APIGrupos, userDataAuth)
+        return this.http.post<Grupo[]>(this.APIGrupos, userDataAuth);
     }
     else{
       return of([]);
@@ -43,7 +42,7 @@ export class GroupService {
   getNotUsersGroup(id_grupo:string){
   //Este metodo retorna los usuarios que no estan en el grupo
   //El id_grupo lo voy a usar para filtrar de la lista de participantes los que ya pertenecen al grupo
-  return this.http.get<User[]>(`${this.API}/participantes/${id_grupo}`)
+  return this.http.get<User[]>(`${this.API}/participantes/${id_grupo}`);
   }
 
   addFriendToGroup(id: string, user: User): Observable<Grupo>{

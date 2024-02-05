@@ -12,7 +12,7 @@ import { User } from '../../group/group';
 })
 export class FormBillComponent {
   formaspago = [
-    { id: '1', nombre: 'Partes iguales' }
+    { id: '1', nombre: 'Partes iguales' },
   ];
 
   categorias = [
@@ -65,11 +65,12 @@ export class FormBillComponent {
       this.idGrupo = params['idGrupo']; // Asignación de idGrupo
     });
     console.log("--------------Mostrando miembros-----------")
-    console.log(this.miembros)
+    console.log("Antes",this.miembros)
     this.billService.miembros$.subscribe((users) => {
       this.miembros = users;
     });
-    console.log(this.miembros)
+    console.log("Despues:",this.miembros);
+    
   } 
 
   createBill() {
@@ -119,8 +120,10 @@ export class FormBillComponent {
   }
 
   createBillSumarry() {
-    console.log("Estoy en createBillSummary")
-    console.log(this.billForm.valid)
+    //Aca voy a setear los miembros en el service summarry bill
+    console.log("Miembros", this.miembros)
+    console.log("Estoy en createBillSummary");
+    this.router.navigate(['inicio/resumen-gasto']);
   }
   
 }

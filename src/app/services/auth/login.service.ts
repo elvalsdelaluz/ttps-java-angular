@@ -23,7 +23,6 @@ export class LoginService {
   }
 
   get userValue(): User {
-    console.log("Estoy en el servicio login, el valor de user beheivior subject es", this.user.getValue)
     return this.user.getValue();
   }
 
@@ -54,8 +53,6 @@ export class LoginService {
     localStorage.setItem('userData', JSON.stringify(user));
 
   }
-  
-
 
   private handlerError(error:HttpErrorResponse){
     if(error.status===404){
@@ -73,8 +70,6 @@ export class LoginService {
   //}
 
   get userLoginOn(): Observable<boolean>{
-    console.log("Este es el valor del observable:")
-    console.log(this.currentUserLoginOn.asObservable())
     return this.currentUserLoginOn.asObservable();
   }
 

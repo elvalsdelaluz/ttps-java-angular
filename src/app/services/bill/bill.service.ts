@@ -15,6 +15,9 @@ export class BillService {
   private userListSource = new BehaviorSubject<User[]>([]);
   miembros$ = this.userListSource.asObservable();
 
+  //28-1-2024
+  miBehavionSubject = new BehaviorSubject<string> ("hola desde billService!");
+
   updateUserList(users: User[]) {
     this.userListSource.next(users);
   }
@@ -35,4 +38,12 @@ export class BillService {
     const url = id ? `${this.API}/${id}` : this.API;
     return this.http.get<Gasto[]>(url) //tengo que recuperar el id del grupo KJKSFJDJFLSKDF
   }
+
+   setData(data: string){
+    this.miBehavionSubject.next(data);
+   }
+
+   getData(){
+    return this.miBehavionSubject.asObservable();
+   }
 }

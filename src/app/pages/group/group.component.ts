@@ -23,22 +23,19 @@ EditarGrupo(): void{
 }
 
 agregarParticipante(idGrupo:string):void{
-  console.log("Muestro model para agregar un participante: ")
+  //console.log("Muestro model para agregar un participante: ")
   const url = ['inicio/agregar-participante', idGrupo];
   this.router.navigate(url);
 }
 
 
 agregarGrupo() {
-  console.log("Hay que mostrar el formulario de grupo")
   this.router.navigate(['inicio/formulario-grupo']);
 }
 
 VerGastos(id_grupo: string, miembros: User[]) {
   //Antes de mostrar la lista de gastos actualizo la lista de miembros
   this.billService.updateUserList(miembros);
-  //Cargando gastos
-  console.log("Mostrar gastos")
   this.router.navigate(['inicio/gastos', id_grupo]);
 }
 
@@ -47,7 +44,7 @@ ngOnInit(): void {
    this.grupoService.getGrupos().subscribe(
     grupos => {
       this.grupos = grupos;
-      console.log(grupos); 
+      console.log("Estos son los grupos:",grupos); 
     },
     error => {
       console.error('Error al obtener grupos', error);

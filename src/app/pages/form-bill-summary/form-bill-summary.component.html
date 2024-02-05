@@ -1,1 +1,58 @@
-<p>form-bill-summary works!</p>
+<form [formGroup]="billForm">
+   <!-- Monto -->
+  <div class="mb-3">
+    <label for="exampleInputNombre1" class="form-label">Monto</label>
+    <input formControlName="monto" type="number" class="form-control" id="exampleInputNombre1">
+      <div *ngIf="monto.invalid && (monto.dirty || monto.touched)"
+          class="text-danger">
+          <div *ngIf="monto.errors?.['required']">
+              El monto es requerido.
+          </div>
+          <div *ngIf="monto.errors?.['montoInvalido']">
+            El monto debe ser mayor que 0.
+          </div>
+      </div> 
+  </div>
+
+    <!-- Miembros -->
+   <div class="mb-3">
+      <label for="exampleSelectMiembro" class="form-label">Pagado por</label>
+      <select formControlName="miembro" class="form-select" id="exampleSelectMiembros">
+        <option *ngFor="let miembro of miembros2" [value]="miembro.id">
+          {{ miembro.email }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Forma pago -->
+   <div class="mb-3">
+      <label for="exampleSelectFormaPago" class="form-label">FormaPago</label>
+      <select formControlName="formapago" class="form-select" id="exampleSelectFormaPago">
+        <option *ngFor="let formapago of formaspago" [value]="formapago.id">
+          {{ formapago.nombre }}
+        </option>
+      </select>
+    </div>
+
+  <div *ngIf="interests.hasError('superaElMaximo')">
+      Se supero el maximo permitido.
+  </div>
+
+  <!-- Montos correspondientes -->
+  <div formArrayName="interests">
+    <!-- Iterar sobre los controles en el FormArray -->
+    <div *ngFor="let interest of interests.controls; let i=index" [formGroupName]="i">
+      <label for="algo{{i}}">{{miembros2[i].email}}:</label>
+      <input id="algo{{i}}" type="number" formControlName="algo" [readonly]="formapago.value === '1'">
+      
+      <!-- Mostrar mensajes de error si el control es inválido -->
+      <div *ngIf="interest.get('algo')?.hasError('required') && interest.get('algo')?.touched">
+        El campo es obligatorio.
+      </div>
+    </div>
+  </div>
+  <button type="submit" (click)="createBill()" class="btn btn-primary">Crear</button>
+</form>
+
+{{billForm}}
+{{billForm.value | json}}
