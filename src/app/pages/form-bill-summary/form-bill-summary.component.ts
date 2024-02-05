@@ -16,7 +16,7 @@ export class FormBillSummaryComponent {
 
   miembros: User[]=[]
 
-  miembros2 = [
+  miembros2 = [ //Despues tengo que remplazar esto por los miembros reales
     { id: '1', email: 'Ana' },
     { id: '2', email: 'Lujan' },
     { id: '3', email: 'Ivan' }
@@ -25,6 +25,7 @@ export class FormBillSummaryComponent {
   formaspago = [
     { id: '1', nombre: 'Partes iguales' },
     { id: '2', nombre: 'Porcentajes' },
+    { id: '3', nombre: 'Partes desiguales' },
   ];
 
   billError: string="";
@@ -33,12 +34,12 @@ export class FormBillSummaryComponent {
     monto: [0, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), this.montoMayorQueCeroValidator]],
     miembro:['',Validators.required],
     formapago: ['1',Validators.required],
-    interests: this.fb.array([], this.customArrayValidator.bind(this)), //this.customArrayValidator
+    interests: this.fb.array([], this.customArrayValidator.bind(this)),
   });
 
-  montoMayorQueCeroValidator(control: FormControl) { //Este hay que eliminarlo
+  montoMayorQueCeroValidator(control: FormControl) { 
+    //Este validador chequea que el monto no sea negativo ni cero
     const monto = control.value;
-    console.log("El monto es: ", monto)
     if (monto != null && monto <= 0) {
       return { 'montoInvalido': true };
     }
@@ -46,41 +47,41 @@ export class FormBillSummaryComponent {
   }
 
   customArrayValidator(array: AbstractControl): { [key: string]: any } | null {
+    //Este validador retorna true si los input del array no suman el valor
+    //correpondiente según la forma de pago
     if ((array instanceof FormArray) && this.controlarValoresInputArray(array)) {
       return null;
     }
-  
-    console.log("validando...");
-  
     return { superaElMaximo: true };
   }
 
-  controlarValoresInputArray2(): boolean{
-    return false;
-  }
-
   controlarValoresInputArray(array:FormArray): boolean {
+    //Este metodo recorre el array (si la forma de pago es distinta
+    //a 'partes iguales' y se ha ingresado un monto) chequeando que 
+    //la suma de los input sea igual a 100 o igual al monto
     const formapagoControl = this.billForm?.get('formapago');
-    
     if (formapagoControl instanceof FormControl && formapagoControl.value !== '1') {
-      const montoControl = this.billForm?.get('monto');
+      //Si la forma de pago no se ingreso retorna true,
+      //no se muestra mensaje de error en el template
       
+      const montoControl = this.billForm?.get('monto');
       if (montoControl instanceof FormControl && typeof montoControl.value === 'number') {
+        //Si el monto no se ingreso retorna true,
+        //no se muestra mensaje de error en el template
         const montoIngresado = montoControl.value;
-        console.log("Tengo que sumar los valores ingresados en los input");
-        // Resto del código
-
+    
+        //Sumo los valores ingresados en los input
         let sumaControles = 0;
-  
         for (let i = 0; i < array.length; i++) {
           const control = array.at(i) as FormGroup;
           const controlValue = control.get('algo')?.value;
-      
+          //En caso de que no se haya ingresado un valor se suma 0
           if (typeof controlValue === 'number' || typeof controlValue === 'undefined') {
             sumaControles += controlValue || 0;
           }
         }
-      
+        
+        //Comparo la suma total con el valor esperado según la forma de pago seleccionada
         if ((formapagoControl.value === '3' && sumaControles !== montoIngresado) || (formapagoControl.value === '2' && sumaControles !== 100)) {
           return  false ;
         }
@@ -90,42 +91,6 @@ export class FormBillSummaryComponent {
   }
   
 
-  customArrayValidator2(array: AbstractControl): { [key: string]: any } | null {
-    if (!array || !(array instanceof FormArray)) {
-      return null;  // O devuelve un error si es apropiado en tu caso
-    }
-  
-    const formapago = this.billForm.get('formapago')?.value;
-    //const montoControl = this.billForm.get('monto');
-    const montoControl = this.billForm ? this.billForm.get('monto') : null;
-
-    
-    let montoIngresado: number | undefined;
-  
-    if (montoControl && typeof montoControl.value === 'number') {
-      montoIngresado = montoControl.value;
-    }
-  
-    let sumaControles = 0;
-  
-    for (let i = 0; i < array.length; i++) {
-      const control = array.at(i) as FormGroup;
-      const controlValue = control.get('algo')?.value;
-  
-      if (typeof controlValue === 'number' || typeof controlValue === 'undefined') {
-        sumaControles += controlValue || 0;
-      }
-    }
-  
-    if ((formapago === '1' && sumaControles !== montoIngresado) || (formapago === '2' && sumaControles !== 100)) {
-      return { superaElMaximo: true };
-    }
-  
-    // Si no hay errores, retorna null
-    return null;
-  }
-  
-  
   constructor(private fb:FormBuilder, private router:Router, private billService: BillService) { 
   }
 
@@ -155,7 +120,8 @@ export class FormBillSummaryComponent {
   }
 
   addInterest(){
-    //this.interests.push(this.fb.control('', [Validators.required, Validators.minLength(10)]))
+    //this.interests.push(this.fb.control('', [Validators.required, Validators.minLength(10)])) 
+    //Esto tira un error de que no encuentra el nombre del controlador o algo asi
     const interestFormGroup = this.fb.group({
       algo:['', Validators.required]
     })
@@ -164,13 +130,10 @@ export class FormBillSummaryComponent {
 
   updateResult() {
     const montoControl = this.billForm.get('monto');
-    
     let montoIngresado: number | undefined;
-  
     if (montoControl && typeof montoControl.value === 'number') {
       montoIngresado = montoControl.value;
     }
-  
     // Verificar si montoIngresado no es undefined antes de realizar operaciones aritméticas   
     if (montoIngresado !== undefined) {
       this.resetearInput(montoIngresado);
@@ -194,7 +157,6 @@ export class FormBillSummaryComponent {
         //limpiar input
        // Obtener la referencia al FormArray
         const interestsArray = this.billForm.get('interests') as FormArray;
-
         // Iterar sobre los controles y resetear cada uno
         interestsArray.controls.forEach((control) => {
           // Resetear el control

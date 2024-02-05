@@ -34,10 +34,7 @@
       </select>
     </div>
 
-  <div *ngIf="interests.hasError('superaElMaximo')">
-      Se supero el maximo permitido.
-  </div>
-
+  <p>RESUMEN</p>
   <!-- Montos correspondientes -->
   <div formArrayName="interests">
     <!-- Iterar sobre los controles en el FormArray -->
@@ -50,6 +47,12 @@
         El campo es obligatorio.
       </div>
     </div>
+  </div>
+  <div *ngIf="interests.hasError('superaElMaximo') && formapago.value ==='2'">
+    La suma de los promedios ingresados debe ser 100%
+  </div>
+  <div *ngIf="interests.hasError('superaElMaximo') && formapago.value ==='3'">
+    La suma de los valores ingresados debe ser igual al monto ingresado.
   </div>
   <button type="submit" (click)="createBill()" class="btn btn-primary">Crear</button>
 </form>
