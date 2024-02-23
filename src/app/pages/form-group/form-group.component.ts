@@ -12,7 +12,9 @@ import { GroupRequest } from '../../services/group/groupRequest';
 export class FormGroupComponent{
   categorias = [
     { id: '1', nombre: 'Viaje' },
-    { id: '2', nombre: 'Fiesta' }
+    { id: '2', nombre: 'Fiesta' },
+    { id: '3', nombre: 'Salida' },
+    { id:'4', nombre: 'Otro'}
   ];
 
   groupError: string="";

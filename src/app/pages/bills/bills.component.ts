@@ -55,7 +55,7 @@ export class BillsComponent {
 
   editarGasto(idGasto: string){
     console.log("Editando gasto", idGasto);
-    const urlToNavigate = ['inicio/editar-gasto', idGasto];
+    const urlToNavigate = ['inicio/editar-gasto', this.idGrupo, idGasto];
     this.router.navigate(urlToNavigate);
   }
 }

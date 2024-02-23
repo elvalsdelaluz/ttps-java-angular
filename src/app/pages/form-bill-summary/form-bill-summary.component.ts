@@ -23,6 +23,12 @@ export class FormBillSummaryComponent {
     { id: '2', nombre: 'Porcentajes' },
     { id: '3', nombre: 'Partes desiguales' },
   ];
+  categorias = [
+    { id: '1', nombre:'Combustible'},
+    { id: '2', nombre:'Alojamiento'},
+    { id: '3', nombre:'Tickets'},
+    { id: '4', nombre:'Comida'},
+   ]
 
   billError: string="";
   
@@ -30,6 +36,7 @@ export class FormBillSummaryComponent {
     monto: [0, [Validators.required, Validators.pattern(/^\d+(\.\d{1,2})?$/), this.montoMayorQueCeroValidator]],
     miembro:['',Validators.required],
     formapago: ['1',Validators.required],
+    categoria:['', Validators.required],
     interests: this.fb.array([], this.customArrayValidator.bind(this)),
   });
 

@@ -49,7 +49,7 @@
 
         <div *ngIf="miembro.invalid && (monto.dirty || monto.touched)" class="text-danger">
           <div *ngIf="miembro.errors?.['required']">
-            El usuario es requerido.
+            El usuario acreedor es requerido.
           </div>
           <div *ngIf="miembro.errors?.['noTieneDeuda']">
             No tiene deudas con el usuario que selecciono.

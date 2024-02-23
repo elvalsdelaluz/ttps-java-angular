@@ -21,7 +21,7 @@ const routes: Routes = [
    children:[
     {path: 'formulario-grupo', component:FormGroupComponent},
     {path:'grupos', component: GroupComponent},  
-    {path:'editar-gasto/:idGasto', component: EditBillSummaryComponent},
+    {path:'editar-gasto/:idGrupo/:idGasto', component: EditBillSummaryComponent},
     {path:'resumen-gasto/:idGrupo', component: FormBillSummaryComponent},
     {path: 'gastos/:idGrupo', component:BillsComponent},
     {path:'amigos', component:ListFriendsComponent},

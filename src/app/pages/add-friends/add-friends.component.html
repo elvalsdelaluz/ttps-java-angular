@@ -1,18 +1,14 @@
 <p style="font-size: 25px;">AGREGAR PARTICIPANTE</p>
 
-<div *ngIf="usuarios && usuarios.length > 0">
-    <table class="table table-hover">
-        <tbody>
-        <tr *ngFor="let usuario of usuarios">
-            <th>{{usuario.email}}</th>
-            <td><a class="btn btn-warning btn-sm mr-2" (click)="agregarParticipante(usuario)">Agregar</a></td>
-        </tr>
-        </tbody>
-    </table>
+<div class="contenedor__tarjetas__nombre__email">
+    <div class="contenedor__nombre__email" *ngIf="usuarios && usuarios.length > 0">
+        <a *ngFor="let usuario of usuarios" class="list-group-item"  (click)="agregarParticipante(usuario)">
+            <p style="font-size: 17px;">{{usuario.nombre | uppercase}}</p>
+            <p style="font-size: 14px;"><strong>{{usuario.email}}</strong></p>
+        </a>
+    </div>
 </div>
 
 <div *ngIf="usuarios && usuarios.length === 0">
     <p>No hay participantes para agregar.</p>
 </div>
-
-<button class="btn btn-secondary me-1" type="button" routerLink="/inicio/grupos">Volver</button>

@@ -6,6 +6,8 @@ import { BillService } from '../../../services/bill/bill.service';
 import { Gasto } from '../../bills/bill';
 import { User } from '../../group/group';
 import { BillSummary } from '../../../services/bill/billRequest';
+import { BillResponse, Deuda } from '../../../services/bill/billResponse';
+import { BillRequest } from '../../../services/bill/billRequest';
 
 
 @Component({
@@ -15,10 +17,11 @@ import { BillSummary } from '../../../services/bill/billRequest';
 })
 export class EditBillSummaryComponent {
 
-  gasto?: Gasto ;
+  gasto?: BillResponse ;
   id_gasto?: string;
+  id_grupo?: string;
 
-  miembros: BillSummary[]=[]
+  miembros?: Deuda[];
 
   formaspago = [
     { id: '1', nombre: 'Partes iguales' },
@@ -47,8 +50,12 @@ export class EditBillSummaryComponent {
   ngOnInit(){
     //Me guardo el id que viene en la url
     this.route.params.subscribe(params => {
-      this.id_gasto = params['idGasto']; // Asignación de idGrupo
+      this.id_gasto = params['idGasto']; // Asignación de idGasto
     });
+    this.route.params.subscribe(params => {
+      this.id_grupo = params['idGrupo']; // Asignación de idGrupo
+    });
+   
    
    this.billService.getGasto(this.id_gasto).subscribe(
     gasto => {
@@ -74,18 +81,20 @@ export class EditBillSummaryComponent {
         //this.billEditForm.patchValue(this.monto:30, [this.montoMayorQueCeroValidator]);
 
         this.billEditForm.patchValue({
-          monto: [this.gasto.monto, [Validators.required, this.montoMayorQueCeroValidator]],
+          monto: [this.gasto.monto],
           formapago: this.gasto.formaDivision,
-          miembro: this.gasto.usuario
+          miembro: this.gasto.usuario.id
         });
       }
-    
-    // La cantidad específica de FormControl que deseas agregar
-    const cantidadFormControl = this.miembros.length;
-    // Iterar para agregar FormControl al FormArray
-    for (let i = 0; i < cantidadFormControl; i++) {
-      this.addInterest(this.miembros[i].user_id, this.miembros[i].deuda); // es solo esta linea no?
+    if (this.miembros){
+        // La cantidad específica de FormControl que deseas agregar
+        const cantidadFormControl = this.miembros?.length || 0;
+       // Iterar para agregar FormControl al FormArray
+        for (let i = 0; i < cantidadFormControl; i++) {
+          this.addInterest(this.miembros[i].usuario.id, this.miembros[i].monto); // es solo esta linea no?
+        }
     }
+    
   }
 
   addInterest(id_user: string, deuda: number){
@@ -119,8 +128,48 @@ export class EditBillSummaryComponent {
   
 
   editarGasto(){
-    console.log("Bora te amo.")
+    console.log("Bora te amo.");
+    console.log(this.billEditForm.value);
+    if (this.billEditForm.valid) {
+      console.log("EDITANDO GASTO")
+      const montoControl = this.billEditForm.get('monto');
+      let montoIngresado: number | undefined;
+      if (montoControl && typeof montoControl.value === 'number') {
+        montoIngresado = montoControl.value;
+      }
+      const interestsValue = this.billEditForm.get('interests')?.value as BillSummary[];
+      const billRequest: BillRequest = {
+        monto: montoIngresado || 0,
+        //categoria: this.billForm.get('categoria')?.value ?? '',
+        formapago: this.billEditForm.get('formapago')?.value ?? '',
+        miembro: this.billEditForm.get('miembro')?.value ?? '',
+        interests: interestsValue
+      };
+      this.billService.editGasto(billRequest, this.id_gasto).subscribe({
+        next: (userData) => {
+          console.log(userData);
+        },
+        error: (errorData) => {
+          console.error(errorData);
+        },
+        complete: () => {
+          console.info("Edito el gasto");
+          const url = ['inicio/gastos/', this.id_grupo];
+          this.router.navigate(url); //Deberia volver a gastos
+          //this.billEditForm.reset();
+        }
+      });
+    }
+    else {
+      this.billEditForm.markAllAsTouched();
+      alert("Error al ingresar los datos.");
+    }
 
+  }
+
+  volverAGastos(){
+    const url = ['inicio/gastos/', this.id_grupo];
+    this.router.navigate(url); //Deberia volver a gastos
   }
 
   chequearCambio(){

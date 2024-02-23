@@ -12,3 +12,7 @@
     display: flex;
     justify-content: space-between;
 }
+
+.bi-person-add{
+    font-size: 28px; /* Cambia el grosor de la fuente */
+}

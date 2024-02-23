@@ -1,0 +1,22 @@
+.contenedor__nombre__email{
+    width: 250px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: #e9e6e6;
+    box-shadow: 0 3px 3px rgb(66, 66, 66);
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.contenedor__nombre__email:hover{
+    background-color: #cec7c7;
+}
+.contenedor__tarjetas__nombre__email{
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,57 @@
+p{
+    text-align: center;
+    font-size: 25px;
+}
+.formularioBillEdit{
+    width: 60%;
+    margin-left: 175px;
+}
+.contenedorCampos{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    flex-wrap: wrap;
+}
+.generalCampos{
+    margin: 10px;
+    height: 45px;
+    width: 300px;
+}
+
+.boton_primario{
+    background-color: var(--colorButton);
+    color: var(--colorTextButton);
+    width: 30%;
+    height: 50px;
+    margin-top: 20px;
+    margin-left: 113px;
+}
+.boton_primario:hover{
+    background-color: var(--colorButtonHover);
+}
+
+
+/*
+@media (min-width:768px){
+    .boton_primario{
+        width: 45%;
+        margin-top: 30px;
+    }
+}
+@media (min-width:1023px){
+    .formulario{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items:center;
+        flex-wrap: wrap;
+    }
+    .contenedor_input-label{
+        margin-left: 130px;
+        width: 34%;
+    }
+    .boton_primario{
+        width: 70%;
+        margin-top: 50px;
+    }
+}*/

@@ -21,16 +21,20 @@ export class AddFriendsComponent {
       this.idGrupo = params['idGrupo'];
       console.log("Estoy en el componen1te add-friends, el valor de idGrupo es: ", this.idGrupo)
     });
+    this.cargarParticipantes();
+  }
+
+  cargarParticipantes(){
     // Llamada para obtener los usuarios que no estan en el grupo
     this.groupService.getNotUsersGroup(this.idGrupo).subscribe(
-     usuarios => {
-       this.usuarios = usuarios;
-       console.log(usuarios); 
-     },
-     error => {
-       console.error('Error al obtener los usuarios', error);
-     }
-     );
+      usuarios => {
+        this.usuarios = usuarios;
+        console.log(usuarios); 
+      },
+      error => {
+        console.error('Error al obtener los usuarios', error);
+      }
+      );
   }
 
   agregarParticipante(user: User){
@@ -38,6 +42,7 @@ export class AddFriendsComponent {
         grupo => {
           console.log(grupo);
           console.log("Se añadio al participante!")
+          this.cargarParticipantes();
         },
         error => {
           console.error('Error al agregar al participante', error);

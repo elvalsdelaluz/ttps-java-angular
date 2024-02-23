@@ -35,14 +35,19 @@
       </select>
     </div>
 
-  <!-- Forma pago -->
+  <!-- Categoria -->
   <div class="contenedorFormasPago2">
     <!--<label for="exampleSelectFormaPago" class="form-label">FormaPago</label>-->
-    <select formControlName="formapago" class="generalCampos" id="exampleSelectFormaPago">
-      <option *ngFor="let formapago of formaspago" [value]="formapago.id">
-        {{ formapago.nombre }}
+    <select formControlName="categoria" class="generalCampos" id="exampleSelectFormaPago">
+      <option *ngFor="let categoria of categorias" [value]="categoria.id">
+        {{ categoria.nombre }}
       </option>
     </select>
+    <div *ngIf="categoria.invalid && (categoria.dirty || categoria.touched)" class="text-danger">
+      <div *ngIf="categoria.errors?.['required']">
+        La categoria de gasto es requerida.
+      </div>
+    </div>
   </div>
 </div>
 

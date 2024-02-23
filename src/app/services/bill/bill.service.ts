@@ -35,15 +35,20 @@ export class BillService {
     return this.http.post<void>(url, bill)
   }
 
+  editGasto(bill:BillRequest, id_gasto?:string,):Observable<void>{
+    const url = id_gasto ? `${this.API}/editar/${id_gasto}` : this.API;
+    return this.http.put<void>(url, bill)
+  }
+
   getGastos(id?:string):Observable<BillResponse[]>{
     console.log("Retornando gastos ", id)
     const url = id ? `${this.API}/${id}` : this.API;
     return this.http.get<BillResponse[]>(url) //tengo que recuperar el id del grupo KJKSFJDJFLSKDF
   }
 
-  getGasto(id?: string): Observable<Gasto>{
+  getGasto(id?: string): Observable<BillResponse>{
     const url = id ? `${this.API}/editar/${id}` : this.API;
-    return this.http.get<Gasto>(url) 
+    return this.http.get<BillResponse>(url) 
   }
 
   getSaldos(id?:string):Observable<BalanceResponse[]>{
@@ -51,6 +56,7 @@ export class BillService {
     const url = id ? `${this.API}/saldos/${id}` : this.API;
     return this.http.get<BalanceResponse[]>(url) //tengo que recuperar el id del grupo KJKSFJDJFLSKDF
   }
+
 
   
 }
