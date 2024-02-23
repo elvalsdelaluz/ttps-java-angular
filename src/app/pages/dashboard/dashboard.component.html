@@ -1,17 +1,19 @@
-<app-nav></app-nav>
-<div class="row">
-    <div class="col-md-2">
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="page" [routerLink]="['amigos']">Amigos</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['grupos']">Grupos</a>
-        </li>
-      </ul>    
+<div class="row contenedor__cuerpoPrincipal">
+  <div class="contenedor__dashboardLeft">
+    <ul class="nav flex-column list__ul">
+      <li class="nav-item list__ul__li">
+        <a class="nav-link" aria-current="page" [routerLink]="['amigos']"><i class="bi bi-people-fill"></i>  AMIGOS</a>
+      </li>
+      <li class="nav-item list__ul__li">
+        <a class="nav-link" [routerLink]="['grupos']"><i class="bi bi-grid"></i> GRUPOS</a>
+      </li>
+    </ul>
+    <div class="contenedor_salir">
+      <app-nav></app-nav>
     </div>
-    <div class="col-md-10">
-      <router-outlet></router-outlet>
-    </div>
-</div>
+  </div>
+  <div class="contenedor__dashboardRight">
+    <router-outlet></router-outlet>
+  </div>
 
+</div>

@@ -39,6 +39,7 @@ export class RegisterComponent {
 
   register(){
     if(this.registerForm.valid){
+      console.log("Registro usuario ", this.registerForm.value)
       this.registerError="";
       this.registerService.register(this.registerForm.value as RegisterRequest).subscribe({
         next: (userData) => {

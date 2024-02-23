@@ -1,0 +1,42 @@
+.principalBill__component{
+    display: flex;
+}
+.contenedor__tabla{
+    width: 62%;
+}
+
+.contenedor__tabla__titulo{
+    height: 61px;           /*ESTE MODIFICA LA SEPARACION DE GASTO CON 'No tienes gastos.'*/
+}
+.contenedor__tabla__cuerpo, .contenedor__tabla__cuerpo__table, .contenedor__tabla__cuerpo__table__tbody{
+    width: 100%;
+}
+.table__tbody_tr__for_contenedor{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.contenedor__bills_two{
+    width: 38%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.contenedor__tabla__two_subcontenedor{
+    width: 100%;
+}
+
+p{
+    font-size: 16px;
+    font-family: 'Roboto Mono', monospace;
+}
+
+
+.contenedor__dashboardUltimo{
+    width: 100%;
+    height: 70vh;
+    border-left: 2px solid rgb(189, 186, 186);
+    padding-left: 8px;
+}
+

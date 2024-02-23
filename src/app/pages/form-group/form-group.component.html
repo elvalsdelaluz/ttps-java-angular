@@ -1,26 +1,29 @@
-<form [formGroup]="groupForm">
-    <p class="text-danger">{{groupError}}</p>
-    <div class="mb-3">
-      <label for="exampleInputNombre1" class="form-label">Nombre</label>
-      <input formControlName="nombre" type="text" class="form-control" id="exampleInputNombre1">
-        <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
-            class="text-danger">
-            <div *ngIf="nombre.errors?.['required']">
-                El nombre es requerido.
-            </div>
-        </div> 
-    </div>
-
-     <!-- Categoría -->
-     <div class="mb-3">
-        <label for="exampleSelectCategoria" class="form-label">Categoría</label>
-        <select formControlName="categoria" class="form-select" id="exampleSelectCategoria">
-          <option *ngFor="let categoria of categorias" [value]="categoria.id">
-            {{ categoria.nombre }}
-          </option>
-        </select>
+<div class="row contenedor_login">
+  <p>NUEVO GRUPO</p>
+  <form [formGroup]="groupForm" class="formulario">
+      <p class="text-danger">{{groupError}}</p>
+      <div class="contenedor_input-label">
+        <label for="exampleInputNombre1" class="form-label">Nombre</label>
+        <input formControlName="nombre" type="text" class="form-control input_formComponent" id="exampleInputNombre1">
+          <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
+              class="text-danger">
+              <div *ngIf="nombre.errors?.['required']">
+                  El nombre es requerido.
+              </div>
+          </div> 
       </div>
 
-    <button type="submit" (click)="createGroup()" class="btn btn-primary">Crear</button>
-    <button class="btn btn-secondary me-1" type="button" routerLink="/inicio/grupos">Volver</button>
-</form>
+      <!-- Categoría -->
+      <div class="contenedor_input-label">
+          <label for="exampleSelectCategoria" class="form-label">Categoría</label>
+          <select formControlName="categoria" class="form-select input_formComponent" id="exampleSelectCategoria">
+            <option *ngFor="let categoria of categorias" [value]="categoria.id">
+              {{ categoria.nombre }}
+            </option>
+          </select>
+        </div>
+
+      <button type="submit" (click)="createGroup()" class="btn boton_primario">Crear</button>
+      <button class="btn boton_primario" type="button" routerLink="/inicio/grupos">Cancelar</button>
+  </form>
+</div>

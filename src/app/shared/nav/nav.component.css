@@ -1,0 +1,20 @@
+.contenedor_cerrarsesion{
+    background-color: #f0f2f5;;
+    color: var(--colorText);
+    padding: 8px;
+    padding-right: 50px;
+   
+
+
+}
+
+.bi-box-arrow-right {
+    font-size: 28px; /* Cambia el grosor de la fuente */
+}
+
+.nav-link {
+    color: black;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+}

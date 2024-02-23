@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidationErrors, AbstractControl, FormControl, FormArray} from '@angular/forms';
-import { Router} from '@angular/router';
+import { Subscription } from 'rxjs';
+import { FormBuilder, FormGroup, Validators, AbstractControl, FormControl, FormArray} from '@angular/forms';
+import { Router, ActivatedRoute} from '@angular/router';
 import { BillService } from '../../services/bill/bill.service';
 import { User } from '../group/group';
-import { Subscription } from 'rxjs';
+import { BillRequest, BillSummary } from '../../services/bill/billRequest';
+
 
 @Component({
   selector: 'app-form-bill-summary',
@@ -16,12 +18,6 @@ export class FormBillSummaryComponent {
 
   miembros: User[]=[]
 
-  miembros2 = [ //Despues tengo que remplazar esto por los miembros reales
-    { id: '1', email: 'Ana' },
-    { id: '2', email: 'Lujan' },
-    { id: '3', email: 'Ivan' }
-  ];
-  
   formaspago = [
     { id: '1', nombre: 'Partes iguales' },
     { id: '2', nombre: 'Porcentajes' },
@@ -36,6 +32,8 @@ export class FormBillSummaryComponent {
     formapago: ['1',Validators.required],
     interests: this.fb.array([], this.customArrayValidator.bind(this)),
   });
+
+  idGrupo?: string;
 
   montoMayorQueCeroValidator(control: FormControl) { 
     //Este validador chequea que el monto no sea negativo ni cero
@@ -91,11 +89,16 @@ export class FormBillSummaryComponent {
   }
   
 
-  constructor(private fb:FormBuilder, private router:Router, private billService: BillService) { 
+  constructor(private fb:FormBuilder, private router:Router, private route: ActivatedRoute, private billService: BillService) { 
   }
 
   
   ngOnInit() {
+    //Recupero el id del grupo
+    this.route.params.subscribe(params => {
+      this.idGrupo = params['idGrupo']; // Asignación de idGrupo
+    });
+
     //Recupero los miembros del grupo
     this.billService.miembros$.subscribe((users) => {
       this.miembros = users;
@@ -112,10 +115,10 @@ export class FormBillSummaryComponent {
 
   cargarArray(){
     // La cantidad específica de FormControl que deseas agregar
-    const cantidadFormControl = this.miembros2.length;
+    const cantidadFormControl = this.miembros.length;
     // Iterar para agregar FormControl al FormArray
     for (let i = 0; i < cantidadFormControl; i++) {
-      this.addInterest(this.miembros2[i].id); // es solo esta linea no?
+      this.addInterest(this.miembros[i].id); // es solo esta linea no?
     }
   }
 
@@ -124,7 +127,7 @@ export class FormBillSummaryComponent {
     //Esto tira un error de que no encuentra el nombre del controlador o algo asi
     const interestFormGroup = this.fb.group({
       user_id:[id_user , Validators.required],
-      deuda:['', Validators.required]
+      deuda:[0, Validators.required]
     })
     this.interests.push(interestFormGroup)
   }
@@ -145,7 +148,7 @@ export class FormBillSummaryComponent {
     if (this.formapago.value === '1'){
       console.log("Estoy en pago por division iguales")
         //Recorro el array interest 
-        const result = montoIngresado / this.miembros2.length;
+        const result = montoIngresado / this.miembros.length;
         
         //ACA TENGO QUE ITERAR EN EL ARRAY DE BILLRRAY
         const interestsArray = this.billForm.get('interests') as FormArray;
@@ -174,6 +177,34 @@ export class FormBillSummaryComponent {
   createBill(){
     if (this.billForm.valid) {
       console.log("CREANDO GASTO")
+      const montoControl = this.billForm.get('monto');
+      let montoIngresado: number | undefined;
+      if (montoControl && typeof montoControl.value === 'number') {
+        montoIngresado = montoControl.value;
+      }
+      const interestsValue = this.billForm.get('interests')?.value as BillSummary[];
+      const billRequest: BillRequest = {
+        monto: montoIngresado || 0,
+        //categoria: this.billForm.get('categoria')?.value ?? '',
+        formapago: this.billForm.get('formapago')?.value ?? '',
+        miembro: this.billForm.get('miembro')?.value ?? '',
+        interests: interestsValue
+      };
+      this.billService.addGasto(billRequest, this.idGrupo).subscribe({
+        next: (userData) => {
+          console.log(userData);
+        },
+        error: (errorData) => {
+          console.error(errorData);
+          this.billError = errorData;
+        },
+        complete: () => {
+          console.info("Se creo el gasto");
+          const url = ['inicio/gastos/', this.idGrupo];
+          this.router.navigate(url); //Deberia volver a gastos
+          this.billForm.reset();
+        }
+      });
     }
     else {
       this.billForm.markAllAsTouched();

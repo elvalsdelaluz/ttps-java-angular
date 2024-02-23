@@ -1,14 +1,15 @@
-<div class="row">
+<div class="row contenedor_register">
+    <!--
     <div class="col-md-3">
-    </div>
-    <div class="col-md-6">
-        <form [formGroup]="registerForm">
+    </div>-->
+    <div class="contenedor_formulario">
+        <form [formGroup]="registerForm" class="formulario">
             <p class="text-danger">{{registerError}}</p>
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Email</label>
-              <input formControlName="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">  
-                <div *ngIf="email.invalid && (email.dirty || email.touched)"
-                    class="text-danger">
+            <div class="contenedor_input-label">
+                <label for="exampleInputEmail1" class="form-label">Email</label>
+                <input formControlName="email" type="email" class="form-control input_formComponent" id="exampleInputEmail1"
+                    aria-describedby="emailHelp" placeholder="Email">
+                <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
                     <div *ngIf="email.errors?.['required']">
                         El Email es requerido.
                     </div>
@@ -17,43 +18,43 @@
                     </div>
                 </div>
             </div>
-        
-            <div class="mb-3">
+
+            <div class="contenedor_input-label">
                 <label for="exampleInpuNombre1" class="form-label">Nombre</label>
-                <input formControlName="nombre" type="text" class="form-control" id="exampleInputNombre1">
-                  <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)"
-                      class="text-danger">
-                      <div *ngIf="nombre.errors?.['required']">
-                          El nombre es requerido.
-                      </div>
-                  </div> 
+                <input formControlName="nombre" type="text" class="form-control input_formComponent" id="exampleInputNombre1">
+                <div *ngIf="nombre.invalid && (nombre.dirty || nombre.touched)" class="text-danger">
+                    <div *ngIf="nombre.errors?.['required']">
+                        El nombre es requerido.
+                    </div>
+                </div>
             </div>
-        
-            <div class="mb-3">
+
+            <div class="contenedor_input-label">
                 <label for="exampleInputApellido1" class="form-label">Apellido</label>
-                <input formControlName="apellido" type="text" class="form-control" id="exampleInputApellido1">
-                  <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)"
-                      class="text-danger">
-                      <div *ngIf="apellido.errors?.['required']">
-                          El apellido es requerido.
-                      </div>
-                  </div> 
+                <input formControlName="apellido" type="text" class="form-control input_formComponent" id="exampleInputApellido1">
+                <div *ngIf="apellido.invalid && (apellido.dirty || apellido.touched)" class="text-danger">
+                    <div *ngIf="apellido.errors?.['required']">
+                        El apellido es requerido.
+                    </div>
+                </div>
             </div>
-        
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input formControlName="password" type="password" class="form-control" id="exampleInputPassword1">
-                <div *ngIf="password.invalid && (password.dirty || password.touched)"
-                    class="text-danger">
+
+            <div class="contenedor_input-label">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input formControlName="password" type="password" class="form-control input_formComponent" id="exampleInputPassword1">
+                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
                     <div *ngIf="password.errors?.['required']">
                         El Password es requerido.
                     </div>
-                </div> 
+                </div>
             </div>
-            <button type="submit" (click)="register()" class="btn btn-primary">Registrame</button>
+            <button type="submit" (click)="register()" class="btn boton_primario">Registrame</button>
         </form>
-        
     </div>
+    <!--
     <div class="col-md-3">
-    </div>
+    </div>-->
 </div>
+
+<!--
+{{registerForm.value | json}}-->

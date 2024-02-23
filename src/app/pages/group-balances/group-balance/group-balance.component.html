@@ -1,0 +1,63 @@
+<p style="font-size: 25px; font-style: normal;">
+  BALANCE
+</p>
+
+<div *ngIf="saldos && saldos.length > 0" class="contenedor__dashboardUltimo">
+  <table class="contenedor__tabla__cuerpo__table">
+    <tbody class="contenedor__tabla__cuerpo__table__tbody">
+      <tr *ngFor="let saldo of saldos" class="table__tbody_tr__for_contenedor">
+        <td>
+          <span *ngFor="let deuda of saldo.deudas">
+
+            <p *ngIf="deuda?.email == usuario?.email"> Debes <strong>{{deuda.monto}}$</strong> a {{saldo.email}} </p>
+            <p *ngIf="deuda?.email != usuario?.email"> {{deuda.email }} debe <strong>{{deuda.monto}}$</strong> a {{saldo.email}} </p>
+          
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div *ngIf="tengo_deuda">
+  <p style="font-size: 24px; font-style: normal;">
+    LIQUIDAR DEUDA
+  </p>
+  <form [formGroup]="liquidationForm" class="formularioLiquidacion">
+    <div class="contenedorCampos">
+      <!-- Monto -->
+      <div class="contenedorMonto">
+        <!--<label for="exampleInputNombre1" class="form-label">Monto</label>-->
+        <input formControlName="monto" type="number" class="labelMonto generalCampos" id="exampleInputNombre1" placeholder="Monto">
+        <div *ngIf="monto.invalid && (monto.dirty || monto.touched)" class="text-danger">
+          <div *ngIf="monto.errors?.['required']">
+            El monto es requerido.
+          </div>
+          <div *ngIf="monto.errors?.['montoInvalido']">
+            El monto debe ser mayor que 0.
+          </div>
+        </div>
+      </div>
+  
+      <!-- Miembros -->
+      <div class="contenedorMiembros">
+        <!--<label for="exampleSelectMiembro" class="form-label">Pagado por</label>-->
+        <select formControlName="miembro" class="selectMiembros generalCampos" id="exampleSelectMiembros">
+          <option *ngFor="let miembro of miembros" [value]="miembro.id">
+            {{ miembro.email }}
+          </option>
+        </select>
+
+        <div *ngIf="miembro.invalid && (monto.dirty || monto.touched)" class="text-danger">
+          <div *ngIf="miembro.errors?.['required']">
+            El usuario es requerido.
+          </div>
+          <div *ngIf="miembro.errors?.['noTieneDeuda']">
+            No tiene deudas con el usuario que selecciono.
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn boton_primario" (click)="liquidarDeuda()">Liquidar</button>
+    </div>
+  </form>
+</div>

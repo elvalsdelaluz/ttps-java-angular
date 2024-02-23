@@ -1,14 +1,39 @@
-body {
-  background: #83a4d4;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #b6fbff, #83a4d4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+*{
+  text-decoration: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+}
 
+
+body {
+  width: 100%;/*
+  background: #83a4d4;  /* fallback for old browsers 
+  background: -webkit-linear-gradient(to right, #b6fbff, #83a4d4);  /* Chrome 10-25, Safari 5.1-6 
+  background: linear-gradient(to right, #b6fbff, #83a4d4); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  font-family: "Rubik", sans-serif;
+  background: #f0f2f5;
  }  
 /* You can add global styles to this file, and also import other style files */
 .ng-valid:not(form).ng-touched   {
-    border-left: 5px solid #42A948; /* green */
+    border-left: 5px solid #38943c; /* green */
   }
  
 .ng-invalid:not(form).ng-touched  {
-    border-left: 5px solid #a94442; /* red */
+    border-left: 5px solid #992422; /* red */
   }
+
+:root{
+  --colorButton: #C9C3C3;
+  --colorButtonHover: #998a8a;
+  --colorText: #444343;
+  --colorTextButton: #3D3B3B;
+}
+
+i{
+  font-size: 25px;
+  margin:10px;
+  color: var(--colorTextButton);
+}

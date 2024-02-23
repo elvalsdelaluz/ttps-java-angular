@@ -1,46 +1,51 @@
-<div class="card mx-auto mt-3" style="max-width: 800px;" *ngIf="grupos && grupos.length > 0" >
-    <div class="card-header">
-        Grupos
-    </div>
-    <div class="card-body">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Participantes</th>
-            <th scope="col">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let grupo of grupos">
-            <td>{{ grupo.nombre }}</td>
-            <td>
-              <div *ngFor="let miembro of grupo.miembros">
-                {{ miembro.email }}
-              </div>
-            </td>
-            <td>
-              <a class="btn btn-warning btn-sm mr-2" (click)="VerGastos(grupo.id, grupo.miembros)">Ver gastos</a>
-              <a class="btn btn-warning btn-sm mr-2" (click)="agregarParticipante(grupo.id)">Añadir participante</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    
-</div>
-
-
-<div class="card mx-auto mt-3" style="max-width: 800px;" *ngIf="grupos && grupos.length === 0">
-  <div class="card-header">
-      Grupos
+<div class="contenedor__tabla"  *ngIf="grupos && grupos.length > 0">
+  <div class="contenedor__tabla__titulo">
+    <a class="nav-link" aria-current="page" style="font-size: 25px;" (click)="agregarGrupo()">
+      TUS GRUPOS<i class="fa-solid fa-plus"></i>
+    </a>
   </div>
-  <p>No hay grupos.</p>
+  <div class="contenedor__tabla__cuerpo">
+    <table class="contenedor__tabla__cuerpo__table">
+      <!--<thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Participantes</th>
+          <th scope="col">Acciones</th>
+        </tr>
+      </thead>-->
+      <tbody class="contenedor__tabla__cuerpo__table__tbody">
+        <tr *ngFor="let grupo of grupos" class="table__tbody_tr__for_contenedor">
+          <td>{{ grupo.nombre }}</td>
+          <!--<td>
+            <div *ngFor="let miembro of grupo.miembros">
+              {{ miembro.email }}
+            </div>
+          </td>-->
+          <td>
+            <a (click)="agregarParticipante(grupo.id)"><i class="bi bi-pencil-fill"></i></a>
+            <a  (click)="VerGastos(grupo.id, grupo.miembros)"><i class="bi bi-cash"></i></a>
+            <!--<a class="btn btn-warning btn-sm mr-2" (click)="agregarParticipante(grupo.id)">Añadir participante</a>-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 </div>
 
 
+<div class="contenedor__tabla"  *ngIf="grupos && grupos.length === 0">
+  <div class="contenedor__tabla__titulo">
+    <a class="nav-link" aria-current="page" style="font-size: 25px;" (click)="agregarGrupo()">
+      TUS GRUPOS<i class="fa-solid fa-plus"></i>
+    </a>
+  </div>
+  <p>No tienes grupos.</p>
+</div>
+
+<!--
 <div class="input-group mx-auto mb-3" style="max-width: 800px;">
   <div class="input-group-append">
     <button class="btn btn-success me-1" type="button" (click)="agregarGrupo()">Agregar grupo</button>
   </div>
-</div>
+</div>-->

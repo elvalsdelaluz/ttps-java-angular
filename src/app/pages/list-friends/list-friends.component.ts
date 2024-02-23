@@ -6,5 +6,6 @@ import { Component } from '@angular/core';
   styleUrl: './list-friends.component.css'
 })
 export class ListFriendsComponent {
+  amigos: any[] = []
 
 }

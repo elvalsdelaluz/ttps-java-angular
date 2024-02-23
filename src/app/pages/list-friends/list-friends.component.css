@@ -1,0 +1,14 @@
+.contenedor__tabla{
+    width: 100%;
+}
+.contenedor__tabla__titulo{
+    height: 90px;
+}
+.contenedor__tabla__cuerpo{
+    width: 100%;
+}
+.table__tbody_tr__for_contenedor{
+    width: 750px; /*Cambiar por porcentaje*/
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,1 +1,9 @@
-<p>list-friends works!</p>
+<div class="contenedor__tabla"  *ngIf="amigos && amigos.length === 0">
+    <div class="contenedor__tabla__titulo">
+      <a class="nav-link" aria-current="page" style="font-size: 25px;">
+        TUS AMIGOS
+      </a>
+    </div>
+    <p>No tienes amigos.</p>
+</div>
+  

@@ -5,6 +5,8 @@ import { HttpClient } from '@angular/common/http';
 import { BillRequest } from './billRequest';
 import { Gasto } from '../../pages/bills/bill';
 import { User } from '../../pages/group/group';
+import { BillResponse } from './billResponse';
+import { BalanceResponse } from './balanceResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -29,21 +31,26 @@ export class BillService {
 
   
   addGasto(bill:BillRequest, id_grupo?:string,):Observable<void>{
-    const url = id_grupo ? `${this.API}/${id_grupo}` : this.API;
+    const url = id_grupo ? `${this.API}/resumen/${id_grupo}` : this.API;
     return this.http.post<void>(url, bill)
   }
 
-  getGastos(id?:string):Observable<Gasto[]>{
+  getGastos(id?:string):Observable<BillResponse[]>{
     console.log("Retornando gastos ", id)
     const url = id ? `${this.API}/${id}` : this.API;
-    return this.http.get<Gasto[]>(url) //tengo que recuperar el id del grupo KJKSFJDJFLSKDF
+    return this.http.get<BillResponse[]>(url) //tengo que recuperar el id del grupo KJKSFJDJFLSKDF
   }
 
-   setData(data: string){
-    this.miBehavionSubject.next(data);
-   }
+  getGasto(id?: string): Observable<Gasto>{
+    const url = id ? `${this.API}/editar/${id}` : this.API;
+    return this.http.get<Gasto>(url) 
+  }
 
-   getData(){
-    return this.miBehavionSubject.asObservable();
-   }
+  getSaldos(id?:string):Observable<BalanceResponse[]>{
+    console.log("Retornando gastos ", id)
+    const url = id ? `${this.API}/saldos/${id}` : this.API;
+    return this.http.get<BalanceResponse[]>(url) //tengo que recuperar el id del grupo KJKSFJDJFLSKDF
+  }
+
+  
 }

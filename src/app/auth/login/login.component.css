@@ -1,3 +1,43 @@
-form {
-    margin: 20px;
+.contenedor_login{
+    width: 100%;
+    background: transparent;
+    backdrop-filter: blur(10px);
+}
+.formulario{
+    width: 90%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    flex-wrap: wrap;
+}
+.input_formComponent{
+    height: 50px;
+    width: 300px;
+}
+
+.boton_primario{
+    background-color: var(--colorButton);
+    color: var(--colorTextButton);
+    width: 100%;
+    height: 50px;
+    margin-top: 20px;
+}
+.boton_primario:hover{
+    background-color: var(--colorButtonHover);
+}
+
+@media (min-width:768px){
+    .boton_primario{
+        width: 45%;
+        margin-top: 30px;
+    }
+}
+@media (min-width:1023px){
+    
+    .boton_primario{
+        width: 24%;
+        margin-top: 50px;
+    }
 }

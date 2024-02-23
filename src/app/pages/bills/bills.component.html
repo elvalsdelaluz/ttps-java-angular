@@ -1,43 +1,56 @@
-{{data}}
-<div class="card mx-auto mt-3" style="max-width: 800px;" *ngIf="gastos && gastos.length > 0" >
-    <div class="card-header">
-        Gastos
+<div class="principalBill__component">
+  <div class="contenedor__tabla" *ngIf="gastos && gastos.length > 0">
+    <div class="contenedor__tabla__titulo">
+      <a class="nav-link" aria-current="page" style="font-size: 25px;" (click)="agregarGasto()">
+        GASTOS<i class="fa-solid fa-plus"></i>
+      </a>
     </div>
-    <div class="card-body">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Fecha</th>
-            <th scope="col">Categoria</th>
-            <th scope="col">Monto pagado</th>
-            <th scope="col">Monto prestado</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let gasto of gastos">
-            <td>{{ gasto.fechaCreacion }}</td>
-            <td>{{ gasto.categoria}}</td>
-            <td>{{ gasto.monto }}</td>
-            <td>{{ gasto.montoPrestado }}</td>
+    <div class="contenedor__tabla__cuerpo">
+      <table class="contenedor__tabla__cuerpo__table">
+        <tbody class="contenedor__tabla__cuerpo__table__tbody">
+          <tr *ngFor="let gasto of gastos" class="table__tbody_tr__for_contenedor">
+            <td>
+              <p>
+                COMIDA
+                {{ gasto.fechaCreacion | date:'dd/MM/yyyy' }}
+                {{ gasto.monto }}$
+                {{ gasto.usuario.nombre | uppercase }}
+                <span *ngIf="usuario && gasto.usuario && usuario.email !== gasto.usuario.email">PAGÓ</span>
+                <span *ngIf="usuario && gasto.usuario && usuario.email === gasto.usuario.email">PAGASTE</span>
+              </p>
+            </td>
+            <td>
+              <a (click)="editarGasto(gasto.id)"><i class="bi bi-pencil-fill"></i></a>
+              <!--<a class="btn btn-warning btn-sm mr-2" (click)="agregarParticipante(grupo.id)">Añadir participante</a>-->
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
-    
-</div>
-
-
-<div class="card mx-auto mt-3" style="max-width: 800px;" *ngIf="gastos && gastos.length === 0">
-  <div class="card-header">
-      Gastos
   </div>
-  <p>No hay gastos.</p>
-</div>
 
+  <div class="contenedor__tabla" *ngIf="gastos && gastos.length === 0">
+    <div class="contenedor__tabla__titulo">
+      <a class="nav-link" aria-current="page" style="font-size: 25px;" (click)="agregarGasto()">
+        GASTOS<i class="fa-solid fa-plus"></i>
+      </a>
+    </div>
+    <p>No hay gastos.</p>
+  </div>
 
-<div class="input-group mx-auto mb-3" style="max-width: 800px;">
-  <div class="input-group-append">
-    <button class="btn btn-success me-1" type="button" (click)="agregarGasto()">Agregar gasto</button>
-    <button class="btn btn-secondary me-1" type="button" routerLink="/inicio/grupos">Volver</button>
+  <div class="contenedor__bills_two">
+
+    <div class="contenedor__tabla__two_subcontenedor">
+      <div class="contenedor__dashboardUltimo" *ngIf="gastos && gastos.length === 0">
+        <p style="font-size: 25px;">
+          BALANCE
+        </p>
+        <p>No tienes deudas.</p>
+      </div>
+
+      <div *ngIf="gastos && gastos.length > 0" class="contenedor__dashboardUltimo">
+        <app-group-balance></app-group-balance>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,12 +1,12 @@
 export interface BillRequest {
     monto:number,
-    categoria:string,
-    idUsuario: string,
-    formaPago:string
+    miembro:string,
+    formapago:string,
+    interests: BillSummary[]
 }
 
 
 export interface BillSummary {
-    idUser: string,
-    monto: number
+    user_id: string,
+    deuda: number
 }

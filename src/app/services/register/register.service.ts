@@ -16,10 +16,11 @@ export class RegisterService {
   register(user: RegisterRequest): Observable<void> {
     const body = {
       email: user.email,
-      contraseña: user.password, // Aquí debería ser 'password', no 'contraseña'
+      password: user.password,
       apellido: user.apellido,
       nombre: user.nombre
     };
+    console.log("Registro usuario body ",body)
 
     return this.http.post<void>(this.API, body)
       .pipe(

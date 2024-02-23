@@ -1,0 +1,37 @@
+.add-margin-Forvista{
+    margin-right: 18px;
+}
+.contenedor__cuerpoPrincipal{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.contenedor__dashboardLeft{
+    width: 18%;
+}
+.contenedor__dashboardRight{
+    width: 80%;
+    border-left: 2px solid rgb(189, 186, 186) ;
+    /*border-right: 2px solid  rgb(189, 186, 186) ;*/
+}
+.contenedor_salir{
+    margin-top: 290px;
+}
+
+.bi-people-fill {
+    font-size: 28px; /* Cambia el grosor de la fuente */
+  }
+
+
+.bi-grid {
+    font-size: 28px; /* Cambia el grosor de la fuente */
+}
+
+.nav-link {
+    color: black;
+    padding: 5px;
+    font-size: 17px;
+    display: flex;
+    align-items: center;
+}
+
