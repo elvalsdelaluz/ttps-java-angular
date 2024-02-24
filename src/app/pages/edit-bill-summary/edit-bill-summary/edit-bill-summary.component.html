@@ -34,16 +34,6 @@
         </option>
       </select>
     </div>
-
-  <!-- Forma pago -->
-  <div class="contenedorFormasPago2">
-    <!--<label for="exampleSelectFormaPago" class="form-label">FormaPago</label>-->
-    <select formControlName="formapago" class="generalCampos" id="exampleSelectFormaPago">
-      <option *ngFor="let formapago of formaspago" [value]="formapago.id">
-        {{ formapago.nombre }}
-      </option>
-    </select>
-  </div>
 </div>
 
   <p>RESUMEN</p>
@@ -57,15 +47,15 @@
       <input id="deuda{{i}}" type="number" formControlName="deuda" [readonly]="formapago.value === '1'">
 
       <!-- Mostrar mensajes de error si el control es inválido -->
-      <div *ngIf="interest.get('deuda')?.hasError('required') && interest.get('deuda')?.touched">
-        El campo es obligatorio.
+      <div *ngIf="interest.get('deuda')?.hasError('required') && interest.get('deuda')?.touched"  class="text-danger">
+        El monto es requerido.
       </div>
     </div>
   </div>
-  <div *ngIf="interests.hasError('superaElMaximo') && formapago.value ==='2'">
+  <div *ngIf="interests.hasError('superaElMaximo') && formapago.value ==='2'"  class="text-danger">
     La suma de los promedios ingresados debe ser 100%
   </div>
-  <div *ngIf="interests.hasError('superaElMaximo') && formapago.value ==='3'">
+  <div *ngIf="interests.hasError('superaElMaximo') && formapago.value ==='3'"  class="text-danger">
     La suma de los valores ingresados debe ser igual al monto ingresado.
   </div>
   <button type="submit" (click)="editarGasto()" class="btn boton_primario">EditarGasto</button>

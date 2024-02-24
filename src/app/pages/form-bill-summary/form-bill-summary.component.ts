@@ -223,6 +223,10 @@ export class FormBillSummaryComponent {
     return this.billForm.controls.monto;
   }
 
+  get categoria(){
+    return this.billForm.controls.categoria;
+  }
+
   get formapago(){
     return this.billForm.controls.formapago;
   }

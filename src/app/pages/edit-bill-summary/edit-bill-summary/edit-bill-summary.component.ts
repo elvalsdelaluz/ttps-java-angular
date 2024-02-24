@@ -21,7 +21,7 @@ export class EditBillSummaryComponent {
   id_gasto?: string;
   id_grupo?: string;
 
-  miembros?: Deuda[];
+  miembros: Deuda[] = [];
 
   formaspago = [
     { id: '1', nombre: 'Partes iguales' },
@@ -32,8 +32,8 @@ export class EditBillSummaryComponent {
   billEditForm = this.fb.group({
     monto: [0, [Validators.required, this.montoMayorQueCeroValidator]],
     miembro:['',Validators.required],
-    formapago: ['1',Validators.required],
-    interests: this.fb.array([]),
+    formapago: ['',Validators.required],
+    interests: this.fb.array([], this.customArrayValidator.bind(this)),
   });
 
   montoMayorQueCeroValidator(control: FormControl) { 
@@ -43,6 +43,50 @@ export class EditBillSummaryComponent {
       return { 'montoInvalido': true };
     }
     return null;
+  }
+
+  customArrayValidator(array: AbstractControl): { [key: string]: any } | null {
+    //Este validador retorna true si los input del array no suman el valor
+    //correpondiente según la forma de pago
+    if ((array instanceof FormArray) && this.controlarValoresInputArray(array)) {
+      return null;
+    }
+    return { superaElMaximo: true };
+  }
+
+  controlarValoresInputArray(array:FormArray): boolean {
+    //Este metodo recorre el array (si la forma de pago es distinta
+    //a 'partes iguales' y se ha ingresado un monto) chequeando que 
+    //la suma de los input sea igual a 100 o igual al monto
+    const formapagoControl = this.billEditForm?.get('formapago');
+    if (formapagoControl instanceof FormControl && formapagoControl.value !== '1') {
+      //Si la forma de pago no se ingreso retorna true,
+      //no se muestra mensaje de error en el template
+      
+      const montoControl = this.billEditForm?.get('monto');
+      if (montoControl instanceof FormControl && typeof montoControl.value === 'number') {
+        //Si el monto no se ingreso retorna true,
+        //no se muestra mensaje de error en el template
+        const montoIngresado = montoControl.value;
+    
+        //Sumo los valores ingresados en los input
+        let sumaControles = 0;
+        for (let i = 0; i < array.length; i++) {
+          const control = array.at(i) as FormGroup;
+          const controlValue = control.get('deuda')?.value;
+          //En caso de que no se haya ingresado un valor se suma 0
+          if (typeof controlValue === 'number' || typeof controlValue === 'undefined') {
+            sumaControles += controlValue || 0;
+          }
+        }
+        
+        //Comparo la suma total con el valor esperado según la forma de pago seleccionada
+        if ((formapagoControl.value === '3' && sumaControles !== montoIngresado) || (formapagoControl.value === '2' && sumaControles !== 100)) {
+          return  false ;
+        }
+      }
+    }
+    return true;
   }
   
   constructor(private fb:FormBuilder, private router:Router, private route: ActivatedRoute, private billService: BillService) { 
@@ -69,6 +113,10 @@ export class EditBillSummaryComponent {
       console.error('Error al obtener grupos', error);
     }
     );
+
+    // Observa cambios en los números y actualiza el resultado
+    this.billEditForm.get('monto')?.valueChanges.subscribe(() => this.updateResult());
+    this.billEditForm.get('formapago')?.valueChanges.subscribe(() => this.updateResult());
   }
 
   cargarFormulario(){
@@ -105,6 +153,68 @@ export class EditBillSummaryComponent {
       deuda:[deuda, Validators.required]
     })
     this.interests.push(interestFormGroup)
+  }
+
+  updateResult2() {
+    const montoControl = this.billEditForm.get('monto');
+  
+    let montoIngresado: number | undefined;
+    if (montoControl && typeof montoControl.value === 'number') {
+      montoIngresado = montoControl.value;
+    }
+    console.log("-------------------------------------")
+    console.log("this.monto.value", this.monto.value?.[0])
+    console.log("this.formapago.value",this.formapago.value)
+    console.log("-------------------------------------")
+
+    // Verificar si montoIngresado no es undefined antes de realizar operaciones aritméticas   
+    if (montoIngresado !== undefined) {
+      this.resetearInput(montoIngresado);
+    }
+
+  }
+
+  updateResult(){
+    const montoActual = this.monto.value?.[0] as number;
+    console.log("UPDATE RESULT",  this.monto.value?.[0])
+    if (! montoActual){
+      console.log("No entra porque es cero y cero es false");
+    }
+    console.log(this.monto.value)
+    if (montoActual){
+      this.resetearInput(montoActual);
+    }
+
+  }
+  
+  resetearInput(montoIngresado:number){
+    console.log(this.formapago.value)
+    if (this.formapago.value === '1'){
+      console.log("Estoy en pago por division iguales")
+      //Recorro el array interest 
+      const result = montoIngresado / this.miembros.length;
+        
+      //ACA TENGO QUE ITERAR EN EL ARRAY DE BILLRRAY
+      const interestsArray = this.billEditForm.get('interests') as FormArray;
+      for (let i = 0; i < interestsArray.length; i++) {
+        const control = interestsArray.at(i) as FormGroup;
+        control.patchValue({ deuda: result});
+      }  
+    }
+    else if (this.formapago.value === '2' || this.formapago.value === '3') {
+        //limpiar input
+       // Obtener la referencia al FormArray
+        const interestsArray = this.billEditForm.get('interests') as FormArray;
+        // Iterar sobre los controles y resetear cada uno
+        interestsArray.controls.forEach((control) => {
+          // Resetear el control
+          //control.reset(); este me limpia todo
+          const deudaControl = control.get('deuda');
+          if (deudaControl) {
+            deudaControl.reset();
+          }
+        });
+    }
   }
   
    

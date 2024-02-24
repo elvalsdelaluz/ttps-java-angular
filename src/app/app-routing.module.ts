@@ -9,7 +9,6 @@ import { RegisterComponent } from './auth/register/register.component';
 import { checkLoginGuard } from './shared/guards/check-login.guard';
 import { ListFriendsComponent } from './pages/list-friends/list-friends.component';
 import { AddFriendsComponent } from './pages/add-friends/add-friends.component';
-import { Formulario2Component } from './formulario2/formulario2.component';
 import { FormBillSummaryComponent } from './pages/form-bill-summary/form-bill-summary.component';
 import { EditBillSummaryComponent } from './pages/edit-bill-summary/edit-bill-summary/edit-bill-summary.component';
 
@@ -28,8 +27,7 @@ const routes: Routes = [
     {path:'agregar-participante/:idGrupo', component:AddFriendsComponent}
    ],
    //canActivate:[checkLoginGuard]
-  }, 
-  {path:'prueba2',component:Formulario2Component}
+  }
 ];
 
 @NgModule({
