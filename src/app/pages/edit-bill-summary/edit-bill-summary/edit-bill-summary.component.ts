@@ -48,6 +48,7 @@ export class EditBillSummaryComponent {
   customArrayValidator(array: AbstractControl): { [key: string]: any } | null {
     //Este validador retorna true si los input del array no suman el valor
     //correpondiente según la forma de pago
+    console.log("VALIDANDO RESUMENNNN externo")
     if ((array instanceof FormArray) && this.controlarValoresInputArray(array)) {
       return null;
     }
@@ -55,6 +56,7 @@ export class EditBillSummaryComponent {
   }
 
   controlarValoresInputArray(array:FormArray): boolean {
+    console.log("VALIDANDO RESUMENNNN INTERNO")
     //Este metodo recorre el array (si la forma de pago es distinta
     //a 'partes iguales' y se ha ingresado un monto) chequeando que 
     //la suma de los input sea igual a 100 o igual al monto
@@ -62,12 +64,14 @@ export class EditBillSummaryComponent {
     if (formapagoControl instanceof FormControl && formapagoControl.value !== '1') {
       //Si la forma de pago no se ingreso retorna true,
       //no se muestra mensaje de error en el template
-      
-      const montoControl = this.billEditForm?.get('monto');
-      if (montoControl instanceof FormControl && typeof montoControl.value === 'number') {
+      console.log("forma pago es <> 1")
+      const monto =  Number(this.billEditForm.get('monto')?.value) ?? 0 //ESSTO DE NUEVO ME SALVO LAS PAPAS
+    
+      if (monto) {
         //Si el monto no se ingreso retorna true,
         //no se muestra mensaje de error en el template
-        const montoIngresado = montoControl.value;
+        const montoIngresado = monto;
+        console.log("monto", montoIngresado)
     
         //Sumo los valores ingresados en los input
         let sumaControles = 0;
@@ -77,6 +81,7 @@ export class EditBillSummaryComponent {
           //En caso de que no se haya ingresado un valor se suma 0
           if (typeof controlValue === 'number' || typeof controlValue === 'undefined') {
             sumaControles += controlValue || 0;
+            console.log("suma montos controles: ", sumaControles)
           }
         }
         
@@ -139,7 +144,12 @@ export class EditBillSummaryComponent {
         const cantidadFormControl = this.miembros?.length || 0;
        // Iterar para agregar FormControl al FormArray
         for (let i = 0; i < cantidadFormControl; i++) {
-          this.addInterest(this.miembros[i].usuario.id, this.miembros[i].monto); // es solo esta linea no?
+          let monto = this.miembros[i].monto
+          if (this.gasto?.formaDivision == "2"){
+            monto = (monto * 100) / this.gasto.monto;
+            console.log("ESTE ES EL PORCENTAJE: ", monto);
+          }
+          this.addInterest(this.miembros[i].usuario.id, monto); // es solo esta linea no?
         }
     }
     
@@ -242,14 +252,10 @@ export class EditBillSummaryComponent {
     console.log(this.billEditForm.value);
     if (this.billEditForm.valid) {
       console.log("EDITANDO GASTO")
-      const montoControl = this.billEditForm.get('monto');
-      let montoIngresado: number | undefined;
-      if (montoControl && typeof montoControl.value === 'number') {
-        montoIngresado = montoControl.value;
-      }
+
       const interestsValue = this.billEditForm.get('interests')?.value as BillSummary[];
       const billRequest: BillRequest = {
-        monto: montoIngresado || 0,
+        monto: Number(this.billEditForm.get('monto')?.value) ?? 0, //ESTO SOLUCIONO EL PROBLEMA DE QUE SE GUARDE 0
         //categoria: this.billForm.get('categoria')?.value ?? '',
         formapago: this.billEditForm.get('formapago')?.value ?? '',
         miembro: this.billEditForm.get('miembro')?.value ?? '',
